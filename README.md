@@ -2,6 +2,9 @@
 
 Sends messages to [Discord](https://discordapp.com/) channels.
 
+> Please note that I do not have automated deployment to docker hub yet and 
+will set it up in the future. For now I do it regularly when I update the repo.
+
 ## Resource Type Configuration
 
 ```yaml
