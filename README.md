@@ -1,4 +1,4 @@
-# Slack notification sending resource
+# Discord notification resource
 
 Sends messages to [Discord](https://discordapp.com/) channels.
 
