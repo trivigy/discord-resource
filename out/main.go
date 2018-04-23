@@ -64,13 +64,17 @@ func main() {
 		panic(err)
 	}
 
+	if err = discord.Open(); err != nil {
+		panic(err)
+	}
+	defer discord.Close()
+
 	_, err = discord.ChannelMessageSend(
 		payload.Params.Channel,
 		payload.Params.Message,
 	)
 	if err != nil {
-		fmt.Println("error opening connection,", err)
-		return
+		panic(err)
 	}
 
 	output, err := json.Marshal(Output{})
