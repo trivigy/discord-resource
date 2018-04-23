@@ -1,6 +1,6 @@
 FROM golang:alpine AS build-env
 
-ARG pkg=webhook-resource
+ARG pkg=discord-resource
 
 COPY . $GOPATH/src/$pkg
 
