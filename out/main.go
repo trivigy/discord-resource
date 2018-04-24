@@ -25,7 +25,6 @@ type Output struct {
 
 type Source struct {
 	Token    string `json:"token,omitempty"`
-	Insecure bool   `json:"insecure,omitempty"`
 }
 
 type Params struct {
