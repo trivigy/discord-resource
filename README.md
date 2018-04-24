@@ -35,7 +35,7 @@ Behavior
 
 Send message to discord, with the configured parameters.
 
-#### Parameters
+#### Parameters: `params`
 
 - `channel` (_required_) Specified which channel to post the message in. The bot must have permissions authorized to `send_messages` for the specific channel. The channel id needs to be provided as a snowflake number in quotes (_string_)
 - `message` (_required_) Any text wanted to ultimately appear on the page. 
