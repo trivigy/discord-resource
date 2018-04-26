@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 
 	"github.com/bwmarrin/discordgo"
+	"time"
 )
 
 type Datum struct {
@@ -24,12 +25,14 @@ type Output struct {
 }
 
 type Source struct {
-	Token    string `json:"token,omitempty"`
+	Token string `json:"token,omitempty"`
 }
 
 type Params struct {
 	Channel string `json:"channel,omitempty"`
+	Title   string `json:"title,omitempty"`
 	Message string `json:"message,omitempty"`
+	Color   int    `json:"color,omitempty"`
 }
 
 type Payload struct {
@@ -68,10 +71,15 @@ func main() {
 	}
 	defer discord.Close()
 
-	_, err = discord.ChannelMessageSend(
-		payload.Params.Channel,
-		payload.Params.Message,
-	)
+	embed := &discordgo.MessageEmbed{
+		Author:      &discordgo.MessageEmbedAuthor{},
+		Title:       payload.Params.Title,
+		Description: payload.Params.Message,
+		Color:       payload.Params.Color,
+		Timestamp:   time.Now().UTC().Format(time.RFC3339),
+	}
+
+	_, err = discord.ChannelMessageSendEmbed(payload.Params.Channel, embed)
 	if err != nil {
 		panic(err)
 	}
