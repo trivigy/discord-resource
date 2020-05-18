@@ -24,8 +24,7 @@ resource_types:
     token: ((token))
 ```
 
-Behavior
---------
+## Behavior
 
 ### `check`: Not implemented.
 
@@ -64,7 +63,7 @@ jobs:
         Success
 ```
 
-Using files. There's a `task` step before the `put` which generates the `discord-message` output.
+Using the `_file` params. There's a `task` step before the `put` which generates the `discord-message` output.
 
 ```yaml
 jobs:
