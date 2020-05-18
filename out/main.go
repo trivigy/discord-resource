@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"os"
 	"bufio"
 	"encoding/json"
+	"fmt"
+	"os"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
-	"time"
 )
 
 type Datum struct {

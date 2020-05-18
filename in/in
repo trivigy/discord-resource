@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Not implemented
+>&2 echo "the in/get script is not implemented for this resource type"
+exit 1
