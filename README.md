@@ -41,8 +41,8 @@ Send message to a discord channel with the configured parameters. Parameters can
 
 The `_file` parameters take precedence over whatever is set in the `params` key of the `put` step.
 
-- `channel` (_string_): Specifies which channel to post the message in. The bot must have permissions authorized to send_messages for the specific channel. The channel id needs to be provided as a snowflake number in quotes (_string_)
-- `channel_file` (_string_): Specifies which channel to post the message in. The bot must have permissions authorized to send_messages for the specific channel. The channel id needs to be provided as a snowflake number in quotes (_string_)
+- `channel` (_string_): Specifies which channel to post the message in. The bot must have permissions authorized to send_messages for the specific channel. The channel ID is a number that should be provided in quotes.
+- `channel_file` (_string_): Specifies which channel to post the message in. The bot must have permissions authorized to send_messages for the specific channel. The channel ID is a number. It does not need to be wrapped in quotes within the text file.
 - `title` (_string)_: Any text wanted to ultimately appear on the page as the title of the message.
 - `title_file` (_string_): Path to file containing the text wanted to ultimately appear on the page as the title of the message.
 - `message` (_string_): The text that will be inside the body of the message.
