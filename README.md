@@ -12,11 +12,12 @@ resource_types:
 - name: discord-resource
   type: docker-image
   source:
-    repository: trivigy/discord-resource
+    repository: taylorsilva/discord-resource
 ```
 
 ## Resource Configuration Example
 ```yaml
+resources:
 - name: discord
   type: discord-resource
   check_every: 999999h
