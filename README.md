@@ -31,9 +31,9 @@ Behavior
 
 ### `in`: Not implemented.
 
-### `out`: Sends message to a Discord channel.
+### `out`: Send message to a Discord channel.
 
-Send message to a discord channel, with the configured parameters. Parameters can be passed in using the [params](https://concourse-ci.org/jobs.html#schema.step.put-step.params) key on the `put` step or passed in via a file.
+Send message to a discord channel with the configured parameters. Parameters can be passed in using the [params](https://concourse-ci.org/jobs.html#schema.step.put-step.params) key on the `put` step or passed in via files.
 
 #### Parameters: `params`
 
@@ -72,7 +72,7 @@ jobs:
     file: tasks/generate-discord-message.sh
   - put: discord
     params:
-      channel: "((channel_id))"
+      channel_file: "discord-message/channel"
       color_file: "discord-message/color"
       title_file: "discord-message/title"
       message_file: "discord-message/message"
