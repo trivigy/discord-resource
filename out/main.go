@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
-	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -29,10 +29,12 @@ type Source struct {
 }
 
 type Params struct {
-	Channel string `json:"channel,omitempty"`
-	Title   string `json:"title,omitempty"`
-	Message string `json:"message,omitempty"`
-	Color   int    `json:"color,omitempty"`
+	Channel     string `json:"channel,omitempty"`
+	ChannelFile string `json:"channel_file,omitempty"`
+	Title       string `json:"title,omitempty"`
+	TitleFile   string `json:"title_file,omitempty"`
+	Message     string `json:"message,omitempty"`
+	MessageFile string `json:"message_file,omitempty"`
 }
 
 type Payload struct {
@@ -61,6 +63,11 @@ func main() {
 		panic(err)
 	}
 
+	params, err := ReasonAboutParams(payload.Params)
+	if err != nil {
+		panic(err)
+	}
+
 	discord, err := discordgo.New("Bot " + payload.Source.Token)
 	if err != nil {
 		panic(err)
@@ -73,13 +80,11 @@ func main() {
 
 	embed := &discordgo.MessageEmbed{
 		Author:      &discordgo.MessageEmbedAuthor{},
-		Title:       payload.Params.Title,
-		Description: payload.Params.Message,
-		Color:       payload.Params.Color,
-		Timestamp:   time.Now().UTC().Format(time.RFC3339),
+		Title:       params.Title,
+		Description: params.Message,
 	}
 
-	_, err = discord.ChannelMessageSendEmbed(payload.Params.Channel, embed)
+	_, err = discord.ChannelMessageSendEmbed(params.Channel, embed)
 	if err != nil {
 		panic(err)
 	}
@@ -89,4 +94,32 @@ func main() {
 		panic(err)
 	}
 	fmt.Print(string(output))
+}
+
+func ReasonAboutParams(params Params) (Params, error) {
+	if params.ChannelFile != "" {
+		contents, err := ioutil.ReadFile(params.ChannelFile)
+		if err != nil {
+			return params, err
+		}
+		params.Channel = string(contents)
+	}
+
+	if params.TitleFile != "" {
+		contents, err := ioutil.ReadFile(params.TitleFile)
+		if err != nil {
+			return params, err
+		}
+		params.Title = string(contents)
+	}
+
+	if params.MessageFile != "" {
+		contents, err := ioutil.ReadFile(params.MessageFile)
+		if err != nil {
+			return params, err
+		}
+		params.Message = string(contents)
+	}
+
+	return params, nil
 }
