@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -63,7 +64,8 @@ func main() {
 		panic(err)
 	}
 
-	params, err := ReasonAboutParams(payload.Params)
+	inputs := os.Args[1]
+	params, err := ReasonAboutParams(inputs, payload.Params)
 	if err != nil {
 		panic(err)
 	}
@@ -96,9 +98,10 @@ func main() {
 	fmt.Print(string(output))
 }
 
-func ReasonAboutParams(params Params) (Params, error) {
+func ReasonAboutParams(inputs string, params Params) (Params, error) {
 	if params.ChannelFile != "" {
-		contents, err := ioutil.ReadFile(params.ChannelFile)
+		file := filepath.Join(inputs, params.ChannelFile)
+		contents, err := ioutil.ReadFile(file)
 		if err != nil {
 			return params, err
 		}
@@ -106,7 +109,8 @@ func ReasonAboutParams(params Params) (Params, error) {
 	}
 
 	if params.TitleFile != "" {
-		contents, err := ioutil.ReadFile(params.TitleFile)
+		file := filepath.Join(inputs, params.TitleFile)
+		contents, err := ioutil.ReadFile(file)
 		if err != nil {
 			return params, err
 		}
@@ -114,7 +118,8 @@ func ReasonAboutParams(params Params) (Params, error) {
 	}
 
 	if params.MessageFile != "" {
-		contents, err := ioutil.ReadFile(params.MessageFile)
+		file := filepath.Join(inputs, params.MessageFile)
+		contents, err := ioutil.ReadFile(file)
 		if err != nil {
 			return params, err
 		}

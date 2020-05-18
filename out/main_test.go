@@ -26,7 +26,8 @@ func TestFileOverrides(t *testing.T) {
 		MessageFile: "message-file",
 	}
 
-	givenParams, _ := ReasonAboutParams(sourceParams)
+	path, _ := os.Getwd()
+	givenParams, _ := ReasonAboutParams(path, sourceParams)
 
 	if givenParams != expectedParams {
 		t.Fail()
@@ -49,7 +50,8 @@ func TestParamsOnly(t *testing.T) {
 		Message: "message body",
 	}
 
-	givenParams, _ := ReasonAboutParams(sourceParams)
+	path, _ := os.Getwd()
+	givenParams, _ := ReasonAboutParams(path, sourceParams)
 
 	if givenParams != expectedParams {
 		t.Fail()
