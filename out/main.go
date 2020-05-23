@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -36,6 +37,7 @@ type Params struct {
 	TitleFile   string `json:"title_file,omitempty"`
 	Message     string `json:"message,omitempty"`
 	MessageFile string `json:"message_file,omitempty"`
+	Color       string `json:"color,omitempty"`
 }
 
 type Payload struct {
@@ -70,6 +72,15 @@ func main() {
 		panic(err)
 	}
 
+	var color int
+	if payload.Params.Color != "" {
+		c, err := strconv.ParseInt(payload.Params.Color, 16, 0)
+		if err != nil {
+			panic(err)
+		}
+		color = int(c)
+	}
+
 	discord, err := discordgo.New("Bot " + payload.Source.Token)
 	if err != nil {
 		panic(err)
@@ -84,6 +95,7 @@ func main() {
 		Author:      &discordgo.MessageEmbedAuthor{},
 		Title:       params.Title,
 		Description: params.Message,
+		Color:       color,
 	}
 
 	_, err = discord.ChannelMessageSendEmbed(params.Channel, embed)

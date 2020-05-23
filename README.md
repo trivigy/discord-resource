@@ -47,6 +47,7 @@ The `_file` parameters take precedence over whatever is set in the `params` key 
 - `title_file` (_string_): Path to file containing the text wanted to ultimately appear on the page as the title of the message.
 - `message` (_string_): The text that will be inside the body of the message.
 - `message_file` (_string_): Path to file containing the text that will be inside the body of the message.
+- `color` (_string_): A hex color code. This will be the background color of the message when posted to Discord. Defaults to black if omitted.
 
 ## Usage Examples
 ```yaml
@@ -56,6 +57,7 @@ jobs:
   - put: discord
     params:
       channel: "((channel_id))"
+      color: "5CB85C"
       title: Hello World!
       message: |
         Success
