@@ -12,7 +12,7 @@ resource_types:
 - name: discord-resource
   type: docker-image
   source:
-    repository: taylorsilva/discord-resource
+    repository: trivigy/discord-resource
 ```
 
 ## Resource Configuration Example
