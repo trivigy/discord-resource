@@ -1,13 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"os"
 	"bufio"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strconv"
 
 	"github.com/bwmarrin/discordgo"
-	"time"
 )
 
 type Datum struct {
@@ -29,10 +31,13 @@ type Source struct {
 }
 
 type Params struct {
-	Channel string `json:"channel,omitempty"`
-	Title   string `json:"title,omitempty"`
-	Message string `json:"message,omitempty"`
-	Color   int    `json:"color,omitempty"`
+	Channel     string `json:"channel,omitempty"`
+	ChannelFile string `json:"channel_file,omitempty"`
+	Title       string `json:"title,omitempty"`
+	TitleFile   string `json:"title_file,omitempty"`
+	Message     string `json:"message,omitempty"`
+	MessageFile string `json:"message_file,omitempty"`
+	Color       string `json:"color,omitempty"`
 }
 
 type Payload struct {
@@ -61,6 +66,21 @@ func main() {
 		panic(err)
 	}
 
+	inputs := os.Args[1]
+	params, err := ReasonAboutParams(inputs, payload.Params)
+	if err != nil {
+		panic(err)
+	}
+
+	var color int
+	if payload.Params.Color != "" {
+		c, err := strconv.ParseInt(payload.Params.Color, 16, 0)
+		if err != nil {
+			panic(err)
+		}
+		color = int(c)
+	}
+
 	discord, err := discordgo.New("Bot " + payload.Source.Token)
 	if err != nil {
 		panic(err)
@@ -73,13 +93,12 @@ func main() {
 
 	embed := &discordgo.MessageEmbed{
 		Author:      &discordgo.MessageEmbedAuthor{},
-		Title:       payload.Params.Title,
-		Description: payload.Params.Message,
-		Color:       payload.Params.Color,
-		Timestamp:   time.Now().UTC().Format(time.RFC3339),
+		Title:       params.Title,
+		Description: params.Message,
+		Color:       color,
 	}
 
-	_, err = discord.ChannelMessageSendEmbed(payload.Params.Channel, embed)
+	_, err = discord.ChannelMessageSendEmbed(params.Channel, embed)
 	if err != nil {
 		panic(err)
 	}
@@ -89,4 +108,35 @@ func main() {
 		panic(err)
 	}
 	fmt.Print(string(output))
+}
+
+func ReasonAboutParams(inputs string, params Params) (Params, error) {
+	if params.ChannelFile != "" {
+		file := filepath.Join(inputs, params.ChannelFile)
+		contents, err := ioutil.ReadFile(file)
+		if err != nil {
+			return params, err
+		}
+		params.Channel = string(contents)
+	}
+
+	if params.TitleFile != "" {
+		file := filepath.Join(inputs, params.TitleFile)
+		contents, err := ioutil.ReadFile(file)
+		if err != nil {
+			return params, err
+		}
+		params.Title = string(contents)
+	}
+
+	if params.MessageFile != "" {
+		file := filepath.Join(inputs, params.MessageFile)
+		contents, err := ioutil.ReadFile(file)
+		if err != nil {
+			return params, err
+		}
+		params.Message = string(contents)
+	}
+
+	return params, nil
 }
