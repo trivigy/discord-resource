@@ -77,3 +77,6 @@ jobs:
       title_file: "discord-message/title"
       message_file: "discord-message/message"
 ```
+
+## Useful resources
+[Creating a discord bot and getting a token](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
